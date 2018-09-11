@@ -17,7 +17,15 @@ public abstract class Operator {
     // HashMap operators = new HashMap();
     // operators.put( "+", new AdditionOperator() );
     // operators.put( "-", new SubtractionOperator() );
-    
+
+    static{
+        HashMap < String, Operator> ops = new HashMap <String, Operator>();
+        ops.put( "+", new AddOperator() );
+        ops.put( "-", new SubtractOperator() );
+        ops.put( "/", new DivideOperator() );
+        ops.put( "*", new MultiplyOperator() );
+        ops.put( "^", new PowerOperator() );
+    }
     
     public abstract int priority();
     public abstract Operand execute(Operand op1, Operand op2 );
@@ -28,6 +36,9 @@ public abstract class Operator {
      * please do your best to avoid static checks
      */
     public static boolean check( String token ) {
+        if(token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/") || token.equals("^"))
+            return true;
+
         return false;
     }
 
