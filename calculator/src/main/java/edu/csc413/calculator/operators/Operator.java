@@ -1,8 +1,8 @@
 package edu.csc413.calculator.operators;
-import edu.csc413.calculator.evaluator.Operand;
 
+import edu.csc413.calculator.evaluator.Operand;
 import java.util.HashMap;
-import java.util.Map;
+
 
 public abstract class Operator {
     // The Operator class should contain an instance of a HashMap
@@ -16,7 +16,7 @@ public abstract class Operator {
     // operators.put( "+", new AdditionOperator() );
     // operators.put( "-", new SubtractionOperator() );
 
-    static final HashMap<String, Operator> ops = new Hashmap<String, Operator>();
+    static final HashMap<String, Operator> ops = new HashMap<String, Operator>();
     static{
         Operator.ops.put( "+", new AddOperator() );
         Operator.ops.put( "-", new SubtractOperator() );
