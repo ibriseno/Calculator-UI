@@ -1,11 +1,8 @@
 package edu.csc413.calculator.evaluator;
-
-
-
 import edu.csc413.calculator.operators.Operator;
-
 import java.util.Stack;
 import java.util.StringTokenizer;
+
 
 public class Evaluator {
   private Stack<Operand> operandStack;
@@ -16,6 +13,7 @@ public class Evaluator {
   public Evaluator() {
     operandStack = new Stack<>();
     operatorStack = new Stack<>();
+
   }
 
   public int eval( String expression ) {
@@ -29,7 +27,7 @@ public class Evaluator {
     // the priority of any operator in the operator stack other than
     // the usual mathematical operators - "+-*/" - should be less than the priority
     // of the usual operators
-
+    operatorStack.push(ops.get("^"));
 
 
     while ( this.tokenizer.hasMoreTokens() ) {
