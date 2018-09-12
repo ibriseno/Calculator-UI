@@ -1,5 +1,6 @@
 package edu.csc413.calculator.evaluator;
 import edu.csc413.calculator.operators.Operator;
+
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -27,7 +28,7 @@ public class Evaluator {
     // the priority of any operator in the operator stack other than
     // the usual mathematical operators - "+-*/" - should be less than the priority
     // of the usual operators
-    operatorStack.push(ops.get("^"));
+    operatorStack.push(Operator.ops.get("^"));
 
 
     while ( this.tokenizer.hasMoreTokens() ) {
