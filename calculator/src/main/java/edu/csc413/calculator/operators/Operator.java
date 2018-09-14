@@ -16,7 +16,7 @@ public abstract class Operator {
     // operators.put( "+", new AdditionOperator() );
     // operators.put( "-", new SubtractionOperator() );
 
-    static final HashMap<String, Operator> ops = new HashMap<String, Operator>();
+   public static final HashMap<String, Operator> ops = new HashMap<String, Operator>();
     static{
         Operator.ops.put( "+", new AddOperator() );
         Operator.ops.put( "-", new SubtractOperator() );
@@ -34,7 +34,8 @@ public abstract class Operator {
      * please do your best to avoid static checks
      */
     public static boolean check( String token ) {
-       return ops.containsKey(token);
+
+        return ops.containsKey(token);
     }
 
 }
