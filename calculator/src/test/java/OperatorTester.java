@@ -9,7 +9,7 @@ public class OperatorTester {
     @Test
     void check01Test(){
         assertTrue(Operator.check("+"));
-        
+
     }
 
     @Test
@@ -20,7 +20,7 @@ public class OperatorTester {
     @Test
     void check03Test(){
         assertTrue(Operator.check("^"));
-        
+
     }
 
     @Test
@@ -31,7 +31,7 @@ public class OperatorTester {
     @Test
     void check05Test(){
         assertTrue(Operator.check("/"));
-        
+
     }
 
     @Test
@@ -63,21 +63,21 @@ public class OperatorTester {
     void getOperator02Test(){
         Operator op = Operator.getOperator("-");
         assertTrue(op instanceof SubtractOperator);
-        
+
     }
 
     @Test
     void getOperator03Test(){
         Operator op = Operator.getOperator("/");
         assertTrue(op instanceof DivideOperator);
-        
+
     }
 
     @Test
     void getOperator04Test(){
         Operator op  = Operator.getOperator("*");
         assertTrue(op instanceof MultiplyOperator);
-        
+
     }
 
     @Test
