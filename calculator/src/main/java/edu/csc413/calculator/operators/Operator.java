@@ -23,21 +23,25 @@ public abstract class Operator {
         Operator.ops.put( "/", new DivideOperator() );
         Operator.ops.put( "*", new MultiplyOperator() );
         Operator.ops.put( "^", new PowerOperator() );
+        Operator.ops.put( "#", new HashOperator() );
     }
 
     public abstract int priority();
 
     public abstract Operand execute(Operand op1, Operand op2 );
 
-
-
-    /**
+ /**
      * determines if a given token is a valid operator.
      * please do your best to avoid static checks
      */
     public static boolean check( String token ) {
-    return ops.containsKey(token);
+        if(ops.containsKey(token))
+            return true;
+        return false;
 
+    }
+    public static Operator getOperator(String token){
+        return ops.get(token);
     }
 
 }
