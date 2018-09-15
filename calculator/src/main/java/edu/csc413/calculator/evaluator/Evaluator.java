@@ -18,8 +18,9 @@ public class Evaluator {
   }
 
   public int eval( String expression ) {
-    String token;
-
+    String token = " ";
+    Operator newOperator = (Operator) Operator.ops.get("#");
+    operatorStack.push(newOperator);
     // The 3rd argument is true to indicate that the delimiters should be used
     // as tokens, too. But, we'll need to remember to filter out spaces.
     this.tokenizer = new StringTokenizer( expression, DELIMITERS, true );
@@ -28,7 +29,6 @@ public class Evaluator {
     // the priority of any operator in the operator stack other than
     // the usual mathematical operators - "+-*/" - should be less than the priority
     // of the usual operators
-    operatorStack.push(Operator.ops.get("^"));
 
 
     while ( this.tokenizer.hasMoreTokens() ) {
@@ -42,13 +42,14 @@ public class Evaluator {
             System.out.println( "*****invalid token******" );
             throw new RuntimeException("*****invalid token******");
           }
-
+        Operator newOperator2 = (Operator) Operator.ops.get(token);
 
           // TODO Operator is abstract - these two lines will need to be fixed:
           // The Operator class should contain an instance of a HashMap,
           // and values will be instances of the Operators.  See Operator class
           // skeleton for an example.
-          Operator newOperator = (Operator) Operator.ops.get(token);
+
+          operatorStack.push(Operator.ops.get(token));
           
           while (operatorStack.peek().priority() >= newOperator.priority() ) {
             // note that when we eval the expression 1 - 2 we will
@@ -62,12 +63,15 @@ public class Evaluator {
             operandStack.push( oldOpr.execute( op1, op2 ));
           }
 
-          operatorStack.push( newOperator );
+          operatorStack.push( newOperator2 );
         }
       }
     }
-
-    
+        Operator newOperator2 = (Operator)operatorStack.pop();
+        Operand op2 = operandStack.get(0);
+        Operand op1 = operandStack.get(1);
+        operandStack.push(newOperator2.execute(op2,op1));
+        Operand result = (Operand) operandStack.pop();
     // Control gets here when we've picked up all of the tokens; you must add
     // code to complete the evaluation - consider how the code given here
     // will evaluate the expression 1+2*3
@@ -79,6 +83,6 @@ public class Evaluator {
     // Suggestion: create a method that takes an operator as argument and
     // then executes the while loop.
     
-    return 0;
+    return result.getValue();
   }
 }
