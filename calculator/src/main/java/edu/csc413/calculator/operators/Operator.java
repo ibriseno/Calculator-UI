@@ -26,7 +26,9 @@ public abstract class Operator {
     }
 
     public abstract int priority();
+
     public abstract Operand execute(Operand op1, Operand op2 );
+
 
 
     /**
@@ -34,8 +36,8 @@ public abstract class Operator {
      * please do your best to avoid static checks
      */
     public static boolean check( String token ) {
+    return ops.containsKey(token);
 
-        return ops.containsKey(token);
     }
 
 }
