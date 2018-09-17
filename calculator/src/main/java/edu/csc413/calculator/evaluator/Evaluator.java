@@ -1,7 +1,8 @@
 package edu.csc413.calculator.evaluator;
 import edu.csc413.calculator.operators.HashOperator;
+import edu.csc413.calculator.operators.LeftParentOperator;
 import edu.csc413.calculator.operators.Operator;
-import edu.csc413.calculator.operators.PowerOperator;
+
 
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -11,20 +12,37 @@ public class Evaluator {
   private Stack<Operand> operandStack;
   private Stack<Operator> operatorStack;
   private StringTokenizer tokenizer;
-  private static final String DELIMITERS = "()+-*^/#!";
+  private static final String DELIMITERS = "()+-*^/#";
 
   public Evaluator() {
     operandStack = new Stack<>();
     operatorStack = new Stack<>();
 
   }
+
+  //Created this
+  public void initialProcess(){
+      while(operatorStack.peek().priority() > 0){ //Changed this
+          Operator oldOpr = operatorStack.pop();
+          Operand op2 = operandStack.pop();
+          Operand op1 = operandStack.pop();
+          operandStack.push(oldOpr.execute(op1,op2));
+      }operatorStack.pop();
+  }
   public int eval( String expression ) {
     String token;
+
+    //Clear the stacks
+    operatorStack.clear();
+    operandStack.clear();
+    //Push the null HashOperator to the stack.
    operatorStack.push(new HashOperator());
 
     // The 3rd argument is true to indicate that the delimiters should be used
     // as tokens, too. But, we'll need to remember to filter out spaces.
     this.tokenizer = new StringTokenizer( expression, DELIMITERS, true );
+
+
 
     // initialize operator stack - necessary with operator priority schema
     // the priority of any operator in the operator stack other than
@@ -43,9 +61,27 @@ public class Evaluator {
             System.out.println( "*****invalid token******" );
             throw new RuntimeException("*****invalid token******");
           }
-        Operator newOperator = Operator.getOperator(token);
 
-          // TODO Operator is abstract - these two lines will need to be fixed:
+          //Added this
+            if(token.equals(")")){
+               initialProcess();
+                continue;
+            }
+            if(token.equals("(")){
+                operatorStack.push(new LeftParentOperator());
+                continue;
+            }
+            Operator newOperator = Operator.getOperator(token);
+
+            if(operatorStack.isEmpty()){
+                operatorStack.add(newOperator);
+                continue;
+            }
+
+
+
+
+            // TODO Operator is abstract - these two lines will need to be fixed:
           // The Operator class should contain an instance of a HashMap,
           // and values will be instances of the Operators.  See Operator class
           // skeleton for an example.
@@ -79,7 +115,9 @@ public class Evaluator {
     // evaluating the operator stack until it only contains the init operator;
     // Suggestion: create a method that takes an operator as argument and
     // then executes the while loop.
-    while(operatorStack.peek().priority()> 0){
+
+   //Added this
+    while(operatorStack.peek().priority()> -1){ //Changed this value
       Operator currentOperator = operatorStack.pop();
       Operand op2 = operandStack.pop();
       Operand op1 = operandStack.pop();
