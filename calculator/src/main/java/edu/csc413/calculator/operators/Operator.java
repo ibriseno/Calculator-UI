@@ -18,12 +18,14 @@ public abstract class Operator {
 
    public static final HashMap<String, Operator> ops = new HashMap<String, Operator>();
     static{
-        Operator.ops.put( "+", new AddOperator() );
-        Operator.ops.put( "-", new SubtractOperator() );
-        Operator.ops.put( "/", new DivideOperator() );
-        Operator.ops.put( "*", new MultiplyOperator() );
-        Operator.ops.put( "^", new PowerOperator() );
-        Operator.ops.put( "#", new HashOperator() );
+        ops.put( "+", new AddOperator() );
+        ops.put( "-", new SubtractOperator() );
+        ops.put( "/", new DivideOperator() );
+        ops.put( "*", new MultiplyOperator() );
+        ops.put( "^", new PowerOperator() );
+        ops.put( "(", new LeftParentOperator() );
+        ops.put( ")", new RightParentOperator() );
+        ops.put( "#", new HashOperator() );
     }
 
     public abstract int priority();
