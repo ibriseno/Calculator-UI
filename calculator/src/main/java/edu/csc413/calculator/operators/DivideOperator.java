@@ -9,8 +9,7 @@ public class DivideOperator extends Operator {
 
     @Override
     public Operand execute(Operand op1, Operand op2 ){
-        Operand temp = new Operand(op1.getValue() / op2.getValue());
-        return temp;
+        return (new Operand(op1.getValue()/op2.getValue()));
     }
 
 }
