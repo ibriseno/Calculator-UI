@@ -1,6 +1,4 @@
 package edu.csc413.calculator.evaluator;
-import edu.csc413.calculator.operators.HashOperator;
-import edu.csc413.calculator.operators.LeftParentOperator;
 import edu.csc413.calculator.operators.Operator;
 
 
@@ -12,7 +10,7 @@ public class Evaluator {
   private Stack<Operand> operandStack;
   private Stack<Operator> operatorStack;
   private StringTokenizer tokenizer;
-  private static final String DELIMITERS = "()+-*^/#";
+  private static final String DELIMITERS = "()+-*^/";
 
   public Evaluator() {
     operandStack = new Stack<>();
@@ -20,23 +18,18 @@ public class Evaluator {
 
   }
 
-  //Created this
-  public void initialProcess(){
-      while(operatorStack.peek().priority() > 0){ //Changed this
-          Operator oldOpr = operatorStack.pop();
-          Operand op2 = operandStack.pop();
-          Operand op1 = operandStack.pop();
-          operandStack.push(oldOpr.execute(op1,op2));
-      }operatorStack.pop();
-  }
+
   public int eval( String expression ) {
     String token;
 
-    //Clear the stacks
+    //Clear the stacks every time we start a new expression
+    //to be evaluated.
     operatorStack.clear();
     operandStack.clear();
-    //Push the null HashOperator to the stack.
-   operatorStack.push(new HashOperator());
+
+      //This will be used as the end of our stack.
+      //The left parentheses operator has the lowest priority value of -1.
+      operatorStack.push(Operator.getOperator("(")); //init for stack
 
     // The 3rd argument is true to indicate that the delimiters should be used
     // as tokens, too. But, we'll need to remember to filter out spaces.
@@ -62,17 +55,29 @@ public class Evaluator {
             throw new RuntimeException("*****invalid token******");
           }
 
-          //Added this
+            //This section takes care of the operations inside a (...)
+            //If the ( token is detected it reads up to the ) token then the
+            //program performs the arithmetic operations up until it reaches the ( token again.
+            //It then pushes the new operand into the operand stack.
+            //After operations are done it continues to check for more tokens in the string.
             if(token.equals(")")){
-               initialProcess();
-                continue;
+                while(operatorStack.peek().priority() > -1){
+                    Operator oldOpr = operatorStack.pop();
+                    Operand op2 = operandStack.pop();
+                    Operand op1 = operandStack.pop();
+                    operandStack.push(oldOpr.execute(op1,op2));
+                }operatorStack.pop(); continue;
+
             }
             if(token.equals("(")){
-                operatorStack.push(new LeftParentOperator());
+                operatorStack.push(Operator.getOperator("("));
                 continue;
             }
             Operator newOperator = Operator.getOperator(token);
 
+
+            //adds the token that was assigned to newOperator into the stack
+            //if the stack is empty.
             if(operatorStack.isEmpty()){
                 operatorStack.add(newOperator);
                 continue;
@@ -87,7 +92,11 @@ public class Evaluator {
           // skeleton for an example.
 
 
-          
+          //This part handles the priority operations for the expression.
+          //Ex: 1*1-2, our initial priority is set to -1, when the first token
+          //is evaluated it will push a new priority value of 2 to the stack.
+          //Since our second token has a lower priority value than the current token
+          //the program performs the operations inside the statement.
           while (operatorStack.peek().priority() >= newOperator.priority() ) {
             // note that when we eval the expression 1 - 2 we will
             // push the 1 then the 2 and then do the subtraction operation
@@ -117,7 +126,7 @@ public class Evaluator {
     // then executes the while loop.
 
    //Added this
-    while(operatorStack.peek().priority()> -1){ //Changed this value
+    while(operatorStack.peek().priority()> 0){
       Operator currentOperator = operatorStack.pop();
       Operand op2 = operandStack.pop();
       Operand op1 = operandStack.pop();
