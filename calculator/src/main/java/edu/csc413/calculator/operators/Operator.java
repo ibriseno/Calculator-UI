@@ -16,7 +16,7 @@ public abstract class Operator {
     // operators.put( "+", new AdditionOperator() );
     // operators.put( "-", new SubtractionOperator() );
 
-   public static final HashMap<String, Operator> ops = new HashMap<String, Operator>();
+   private static final HashMap<String, Operator> ops = new HashMap<String, Operator>();
     static{
         ops.put( "+", new AddOperator() );
         ops.put( "-", new SubtractOperator() );
@@ -25,7 +25,7 @@ public abstract class Operator {
         ops.put( "^", new PowerOperator() );
         ops.put( "(", new LeftParentOperator() );
         ops.put( ")", new RightParentOperator() );
-        ops.put( "#", new HashOperator() );
+
     }
 
     public abstract int priority();
